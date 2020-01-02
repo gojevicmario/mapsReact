@@ -1,6 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
-export default function Map() {
+export default function Map({ markerData }) {
+  const [markers, setMarkers] = useState(markerData);
+
   useEffect(() => {
     renderMap();
   }, []);
@@ -14,8 +16,14 @@ export default function Map() {
 
 const initMap = () => {
   var map = new window.google.maps.Map(document.getElementById('map'), {
-    center: { lat: -34.397, lng: 150.644 },
-    zoom: 8
+    center: { lat: 46.16278, lng: 16.8275 },
+    zoom: 12
+  });
+
+  var marker = new window.google.maps.Marker({
+    center: new window.google.maps.LatLng(46.16278, 16.8275),
+    map: map,
+    title: 'test'
   });
 };
 

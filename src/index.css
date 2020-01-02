@@ -21,3 +21,8 @@ body {
   margin: 0;
   padding: 0;
 }
+
+.marker-btn img {
+  width: 20px;
+  height: 20px;
+}
