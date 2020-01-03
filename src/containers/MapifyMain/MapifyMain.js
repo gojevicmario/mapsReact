@@ -1,10 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useDropzone } from 'react-dropzone';
+import Papa from 'papaparse';
 
 import MapifyTable from '../MapifyTable/MapifyTable';
 import Map from '../Map/Map';
 import InputForm from '../InputForm/InputForm';
+import alertify from 'alertifyjs';
 
 import './MapifyMain.less';
+import 'alertifyjs/build/css/alertify.css';
 
 export default function MapifyMain({
   markerData,
@@ -16,61 +20,15 @@ export default function MapifyMain({
   const [columns, setColumns] = useState([]);
 
   useEffect(() => {
-    console.log('EFFEKT');
-    setMarkeri([
-      {
-        Id: 1,
-        CompanyName: 'Speck',
-        Founder: 'Tomislav Tenodi',
-        City: 'Križevci',
-        Country: 'Croatia',
-        PostalCode: 48260,
-        Street: 'Franje Tuđmana 20',
-        Photo:
-          'https://www.speck.agency/static/media/About%E2%80%93WhoWeAre1.0fab5945.webp',
-        Website: 'https://speck.agency',
-        Latitude: 46.019339,
-        Longitude: 16.542341,
-        Visible: true
-      },
-      {
-        Id: 2,
-        CompanyName: 'Tesla',
-        Founder: 'Elon Musk',
-        City: 'Fremont',
-        Country: 'USA',
-        PostalCode: 'CA 94538',
-        Street: '45500 Fremont Blvd',
-        Photo:
-          'https://cdn.motor1.com/images/mgl/QE00B/s3/tesla-cybertruck-reveal.jpg',
-        Website: 'https://www.tesla.com/',
-        Latitude: 37.49234,
-        Longitude: -121.943572,
-        Visible: false
-      },
-      {
-        Id: 3,
-        CompanyName: 'Pied Piper',
-        Founder: 'Richard Hendricks',
-        City: 'Palo Alto',
-        Country: 'USA',
-        PostalCode: 'CA 94303',
-        Street: '5230 Newell Rd',
-        Photo:
-          'https://scontent.fktw1-1.fna.fbcdn.net/v/t1.0-9/16142502_613171428874596_6979525158109093888_n.jpg?_nc_cat=101&_nc_ohc=q5jBs0ZJjpkAQncbSwevrcJnUwl63xlMP3006z3WZwouY8nxd3IH7rrwA&_nc_ht=scontent.fktw1-1.fna&oh=4feb3c5eace1ea1e3367e1ebe7b3845e&oe=5E881C9A',
-        Website: 'http://www.piedpiper.com/',
-        Latitude: 37.449084,
-        Longitude: -122.139967,
-        Visible: true
-      }
-    ]);
-  }, []);
-
-  useEffect(() => {
     setColumns(columnData);
   }, [columnData]);
   return (
     <div id="main-content">
+      <FileUploader
+        updateSomething={returnData => {
+          setMarkeri(returnData);
+        }}
+      />
       <Map markerData={markeri.filter(marker => marker.Visible)} />
       <InputForm
         markerData={markeri}
@@ -90,3 +48,53 @@ export default function MapifyMain({
     </div>
   );
 }
+
+var fromCsv = [];
+const FileUploader = ({ updateSomething }) => {
+  const onDrop = useCallback(acceptedFiles => {
+    if (acceptedFiles[0].name.split('.')[1].toLowerCase() === 'csv') {
+      Papa.parse(acceptedFiles[0], {
+        complete: function(result) {
+          let columnsFromCsv = result.data[0].map(column => ({
+            columnName: column,
+            selector: column.replace(/\s/g, ''),
+            isLabel: column === 'Founder' ? true : false
+          }));
+          console.table(result.data[1]);
+          //Caution shitty code below
+          fromCsv = result.data.slice(1).map((row, index) => ({
+            Visible: true,
+            Id: row[0],
+            CompanyName: row[1],
+            Founder: row[2],
+            City: row[3],
+            Country: row[4],
+            PostalCode: row[5],
+            Street: row[6],
+            Photo: row[7],
+            Website: row[8],
+            Latitude: parseFloat(row[9]),
+            Longitude: parseFloat(row[10])
+          }));
+          //hax for badly formated csv
+          fromCsv.pop();
+          updateSomething(fromCsv);
+        }
+      });
+    } else {
+      alertify.error('Only CSV files are allowed');
+    }
+  }, []);
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+
+  return (
+    <div {...getRootProps()}>
+      <input {...getInputProps()} />
+      {isDragActive ? (
+        <p>Drop the files here ...</p>
+      ) : (
+        <p>Drag 'n' drop some files here, or click to select files</p>
+      )}
+    </div>
+  );
+};

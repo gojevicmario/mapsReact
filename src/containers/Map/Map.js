@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-
 import ReactMapGL, { Marker, Popup } from 'react-map-gl';
+
+import './Map.less';
 
 function Map({ markerData }) {
   const [markers, setMarkers] = useState([]);
@@ -11,7 +12,7 @@ function Map({ markerData }) {
     longitude: 16.54,
     zoom: 10,
     width: '100%',
-    height: '35vh'
+    height: '50vh'
   });
   useEffect(() => {
     setMarkers(markerData);
@@ -41,6 +42,7 @@ function Map({ markerData }) {
           key={marker.Id}
           latitude={marker.Latitude}
           longitude={marker.Longitude}
+          className="marker"
         >
           <button
             className="marker-btn"
@@ -49,7 +51,7 @@ function Map({ markerData }) {
               setSelectedMarker(marker);
             }}
           >
-            <img src="https://www.placecage.com/50/50" alt="" />
+            <img src="https://www.placecage.com/40/40" alt="" />
           </button>
         </Marker>
       ))}
