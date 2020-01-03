@@ -85,6 +85,7 @@ export default function InputForm({ markerData, saveMarkerData }) {
       <input
         className="form-control"
         type="number"
+        step="any"
         placeholder="Latitude"
         name="Latitude"
         ref={register({ required: true, max: 90, min: -90 })}
@@ -102,6 +103,7 @@ export default function InputForm({ markerData, saveMarkerData }) {
       <input
         className="form-control"
         type="number"
+        step="any"
         placeholder="Longitude"
         name="Longitude"
         ref={register({ required: true, max: 180, min: -180 })}
