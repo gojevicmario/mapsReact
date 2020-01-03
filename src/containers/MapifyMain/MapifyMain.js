@@ -4,6 +4,8 @@ import MapifyTable from '../MapifyTable/MapifyTable';
 import Map from '../Map/Map';
 import InputForm from '../InputForm/InputForm';
 
+import './MapifyMain.less';
+
 export default function MapifyMain({ markerData, columnData }) {
   const [markeri, setMarkeri] = useState([]);
   const [columns, setColumns] = useState([]);
@@ -16,7 +18,7 @@ export default function MapifyMain({ markerData, columnData }) {
     setColumns(columnData);
   }, [columnData]);
   return (
-    <>
+    <div id="main-content">
       <Map markerData={markeri} />
       <InputForm
         markerData={markeri}
@@ -25,6 +27,6 @@ export default function MapifyMain({ markerData, columnData }) {
         }}
       />
       <MapifyTable markerData={markeri} columnData={columnData} />
-    </>
+    </div>
   );
 }

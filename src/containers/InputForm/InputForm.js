@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import './inputForm.less';
 
 export default function InputForm({ markerData, saveMarkerData }) {
   const [markers, setMarkers] = useState([]);
   const { register, handleSubmit, watch, errors } = useForm();
+
+  console.log(errors);
 
   const onSubmit = data => {
     saveMarkerData({
@@ -18,33 +21,94 @@ export default function InputForm({ markerData, saveMarkerData }) {
   }, [markerData.length]);
 
   return (
-    // <form
-    //   onSubmit={event => {
-    //     event.preventDefault();
-    //     console.log(event.target);
-    //     saveMarkerData({
-    //       Id: markers[markers.length - 1].Id + 1,
-    //       Latitude: parseFloat(document.getElementById('Latitude').value),
-    //       Longitude: parseFloat(document.getElementById('Longitude').value)
-    //     });
-    //   }}
-    // >
-    //   <input type="text" name="Latitude" id="Latitude" />
-    //   <input type="text" name="Longitude" id="Longitude" />
-    //   <button className="btn btn-danger">SUBMIT</button>
-    // </form>
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <label>Latitude</label>
-      <input name="Latitude" ref={register} />
-      <label>Longitude</label>
+    <form onSubmit={handleSubmit(onSubmit)} className="marker-form">
       <input
-        name="Longitude"
-        ref={register({ required: true, maxLength: 10 })}
+        className="form-control"
+        type="text"
+        placeholder="Company name"
+        name="CompanyName"
+        ref={register({ required: true })}
       />
-      {errors.exampleRequired && <p>This field is required</p>}
-      <button className="btn btn-danger" type="submit">
-        SUBMIT
-      </button>
+      {errors.CompanyName && (
+        <div className="alert alert-danger">This field is required</div>
+      )}
+      <input
+        className="form-control"
+        type="text"
+        placeholder="Founder"
+        name="Founder"
+        ref={register}
+      />
+      <input
+        className="form-control"
+        type="text"
+        placeholder="City"
+        name="City"
+        ref={register}
+      />
+      <input
+        className="form-control"
+        type="text"
+        placeholder="Postal Code"
+        name="Postal Code"
+        ref={register}
+      />
+      <input
+        className="form-control"
+        type="text"
+        placeholder="Street"
+        name="Street"
+        ref={register}
+      />
+      <input
+        className="form-control"
+        type="url"
+        placeholder="Photo"
+        name="Photo"
+        ref={register}
+      />
+      <input
+        className="form-control"
+        type="url"
+        placeholder="Website"
+        name="Website"
+        ref={register}
+      />
+      <input
+        className="form-control"
+        type="number"
+        placeholder="Latitude"
+        name="Latitude"
+        ref={register({ required: true, max: 90, min: -90 })}
+      />
+      {errors.Latitude &&
+        (((errors.Latitude.type === 'max' ||
+          errors.Latitude.type === 'min') && (
+          <div className="alert alert-danger">
+            The input must be between 90 and -90
+          </div>
+        )) ||
+          (errors.Latitude.type = 'required' && (
+            <div className="alert alert-danger">This is requred</div>
+          )))}
+      <input
+        className="form-control"
+        type="number"
+        placeholder="Longitude"
+        name="Longitude"
+        ref={register({ required: true, max: 180, min: -180 })}
+      />
+      {errors.Longitude &&
+        (((errors.Longitude.type === 'max' ||
+          errors.Longitude.type === 'min') && (
+          <div className="alert alert-danger">
+            The input must be between -180 and 180{' '}
+          </div>
+        )) ||
+          (errors.Longitude.type = 'required' && (
+            <div className="alert alert-danger">This is requred</div>
+          )))}
+      <input className="form-control" type="submit" />
     </form>
   );
 }

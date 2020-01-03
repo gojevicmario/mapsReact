@@ -10,8 +10,8 @@ function Map({ markerData }) {
     latitude: 46,
     longitude: 16.54,
     zoom: 10,
-    width: '50vw',
-    height: '50vw'
+    width: '100%',
+    height: '35vh'
   });
   useEffect(() => {
     setMarkers(markerData);
