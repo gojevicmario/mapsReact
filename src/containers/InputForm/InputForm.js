@@ -11,8 +11,16 @@ export default function InputForm({ markerData, saveMarkerData }) {
   const onSubmit = data => {
     saveMarkerData({
       Id: markers[markers.length - 1].Id + 1,
+      CompanyName: data.CompanyName,
+      Founder: data.Founder,
+      City: data.City,
+      Street: data.Street,
+      PostalCode: data.PostalCode,
+      Photo: data.Photo,
+      Website: data.Website,
       Latitude: parseFloat(data.Latitude),
-      Longitude: parseFloat(data.Longitude)
+      Longitude: parseFloat(data.Longitude),
+      Visible: data.Visible
     });
   };
 
@@ -50,7 +58,7 @@ export default function InputForm({ markerData, saveMarkerData }) {
         className="form-control"
         type="text"
         placeholder="Postal Code"
-        name="Postal Code"
+        name="PostalCode"
         ref={register}
       />
       <input
@@ -108,7 +116,24 @@ export default function InputForm({ markerData, saveMarkerData }) {
           (errors.Longitude.type = 'required' && (
             <div className="alert alert-danger">This is requred</div>
           )))}
-      <input className="form-control" type="submit" />
+      <div class="custom-control custom-checkbox">
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          id="Visible"
+          name="Visible"
+          ref={register}
+        />
+        <label class="custom-control-label" htmlFor="Visible">
+          Displayed on map?
+        </label>
+      </div>
+      <input
+        className="form-control"
+        className="form-control"
+        type="submit"
+        value="Save"
+      />
     </form>
   );
 }

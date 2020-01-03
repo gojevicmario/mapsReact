@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from 'react';
 
-export default function MapifyTable({ markerData, columnData }) {
+export default function MapifyTable({
+  markerData,
+  columnData,
+  changeVisibleMarker
+}) {
   const [columns, setColumns] = useState([]);
   const [rows, setRows] = useState([]);
 
   useEffect(() => {
     setColumns(columnData);
-    console.log(columnData);
   }, [columnData.length]);
 
   useEffect(() => {
     setRows(markerData);
-    console.log(markerData);
   }, [markerData.length]);
 
   return (
@@ -24,8 +26,22 @@ export default function MapifyTable({ markerData, columnData }) {
         </tr>
       </thead>
       <tbody>
-        {rows.map(marker => (
+        {rows.map((marker, index) => (
           <tr key={marker.Id}>
+            <td>
+              <input
+                type="checkbox"
+                name="checkBoxVisible"
+                id="checkBoxVisible"
+                checked={marker.Visible}
+                onChange={e => {
+                  changeVisibleMarker({
+                    Visible: !marker.Visible,
+                    Index: index
+                  });
+                }}
+              />
+            </td>
             <td>{marker.Id}</td>
             <td>{marker.CompanyName}</td>
             <td>{marker.Founder}</td>
@@ -33,7 +49,7 @@ export default function MapifyTable({ markerData, columnData }) {
             <td>{marker.PostalCode}</td>
             <td>{marker.Street}</td>
             <td>
-              <img src={marker.Photo} style={{ maxWidth: '10vw' }} alt="" />
+              <img src={marker.Photo} style={{ maxWidth: '10vw' }} />
             </td>
             <td>
               <a
