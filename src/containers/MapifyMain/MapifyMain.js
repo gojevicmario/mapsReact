@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import MapifyTable from '../MapifyTable/MapifyTable';
 import Map from '../Map/Map';
+import InputForm from '../InputForm/InputForm';
 
 export default function MapifyMain({ markerData, columnData }) {
   const [markeri, setMarkeri] = useState([]);
@@ -17,18 +18,10 @@ export default function MapifyMain({ markerData, columnData }) {
   return (
     <>
       <Map markerData={markeri} />
-      <input
-        type="number"
-        onChange={e => {
-          setMarkeri([
-            ...markeri,
-            {
-              Id: markeri[markeri.length - 1].Id + 1,
-              Latitude: parseFloat(e.target.value),
-              Longitude: parseFloat(e.target.value)
-            }
-          ]);
-          console.log(markeri);
+      <InputForm
+        markerData={markeri}
+        saveMarkerData={returnData => {
+          setMarkeri([...markeri, returnData]);
         }}
       />
       <MapifyTable markerData={markeri} columnData={columnData} />
