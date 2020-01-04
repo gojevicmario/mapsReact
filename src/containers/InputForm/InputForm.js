@@ -6,11 +6,13 @@ export default function InputForm({ markerData, saveMarkerData }) {
   const [markers, setMarkers] = useState([]);
   const { register, handleSubmit, watch, errors } = useForm();
 
+  console.log(`Erorrs:`);
   console.log(errors);
 
   const onSubmit = data => {
     saveMarkerData({
-      Id: markers[markers.length - 1].Id + 1,
+      Id:
+        markers.length === 0 ? 0 : parseInt(markers[markers.length - 1].Id) + 1,
       CompanyName: data.CompanyName,
       Founder: data.Founder,
       City: data.City,
@@ -22,6 +24,7 @@ export default function InputForm({ markerData, saveMarkerData }) {
       Longitude: parseFloat(data.Longitude),
       Visible: data.Visible
     });
+    document.getElementById('markerForm').reset();
   };
 
   useEffect(() => {
@@ -29,7 +32,11 @@ export default function InputForm({ markerData, saveMarkerData }) {
   }, [markerData.length]);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="marker-form">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="marker-form"
+      id="markerForm"
+    >
       <input
         className="form-control"
         type="text"

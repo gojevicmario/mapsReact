@@ -14,7 +14,7 @@ export default function MapifyTable({
 
   useEffect(() => {
     setRows(markerData);
-  }, [markerData.length]);
+  }, [markerData]);
 
   return (
     <table className="table table-striped">
@@ -27,7 +27,7 @@ export default function MapifyTable({
       </thead>
       <tbody>
         {rows.map((marker, index) => (
-          <tr key={marker.Id}>
+          <tr key={index}>
             <td>
               <input
                 type="checkbox"
