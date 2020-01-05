@@ -1,42 +1,42 @@
 [
   {
     "columnName": "Id",
-    "isLabel": "false"
+    "isLabel": false
   },
   {
     "columnName": "Company Name",
-    "isLabel": "false"
+    "isLabel": false
   },
   {
     "columnName": "Founder",
-    "isLabel": "false"
+    "isLabel": false
   },
   {
     "columnName": "City",
-    "isLabel": "false"
+    "isLabel": false
   },
   {
     "columnName": "Postal Code",
-    "isLabel": "false"
+    "isLabel": false
   },
   {
     "columnName": "Street",
-    "isLabel": "false"
+    "isLabel": false
   },
   {
     "columnName": "Photo",
-    "isLabel": "false"
+    "isLabel": false
   },
   {
     "columnName": "Website",
-    "isLabel": "false"
+    "isLabel": false
   },
   {
     "columnName": "Latitude",
-    "isLabel": "false"
+    "isLabel": false
   },
   {
     "columnName": "Longitude",
-    "isLabel": "false"
+    "isLabel": false
   }
 ]

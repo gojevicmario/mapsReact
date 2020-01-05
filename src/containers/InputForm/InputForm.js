@@ -6,9 +6,6 @@ export default function InputForm({ markerData, saveMarkerData }) {
   const [markers, setMarkers] = useState([]);
   const { register, handleSubmit, watch, errors } = useForm();
 
-  console.log(`Erorrs:`);
-  console.log(errors);
-
   const onSubmit = data => {
     saveMarkerData({
       Id:
@@ -125,15 +122,15 @@ export default function InputForm({ markerData, saveMarkerData }) {
           (errors.Longitude.type = 'required' && (
             <div className="alert alert-danger">This is requred</div>
           )))}
-      <div class="custom-control custom-checkbox">
+      <div className="custom-control custom-checkbox">
         <input
           type="checkbox"
-          class="custom-control-input"
+          className="custom-control-input"
           id="Visible"
           name="Visible"
           ref={register}
         />
-        <label class="custom-control-label" htmlFor="Visible">
+        <label className="custom-control-label" htmlFor="Visible">
           Displayed on map?
         </label>
       </div>

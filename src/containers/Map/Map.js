@@ -1,22 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import ReactMapGL, { Marker, Popup } from 'react-map-gl';
 
+import { FaBeer } from 'react-icons/fa';
+
 import './Map.less';
 
-function Map({ markerData }) {
+function Map({ markerData, label }) {
   const [markers, setMarkers] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState(null);
+  const [labelColumn, setLabelColumn] = useState('Founder');
 
   const [viewport, setViewport] = useState({
-    latitude: 46,
-    longitude: 16.54,
-    zoom: 10,
+    latitude: 43.978497,
+    longitude: 15.383245,
+    zoom: 15,
     width: '100%',
     height: '50vh'
   });
+
   useEffect(() => {
     setMarkers(markerData);
   }, [markerData.length]);
+
+  useEffect(() => {
+    if (typeof label !== 'undefined')
+      setLabelColumn(label.columnName.replace(/ /g, ''));
+  }, [label]);
 
   useEffect(() => {
     const listener = e => {
@@ -30,6 +39,7 @@ function Map({ markerData }) {
       window.removeEventListener('keydown', listener);
     };
   }, []);
+
   return (
     <ReactMapGL
       {...viewport}
@@ -51,7 +61,7 @@ function Map({ markerData }) {
               setSelectedMarker(marker);
             }}
           >
-            <img src="https://www.placecage.com/40/40" alt="" />
+            <FaBeer size={20} />
           </button>
         </Marker>
       ))}
@@ -62,7 +72,9 @@ function Map({ markerData }) {
           longitude={selectedMarker.Longitude}
           onClose={() => setSelectedMarker(null)}
         >
-          <div> {selectedMarker.Founder}</div>
+          <div style={{ margin: '0px 10px' }}>
+            {selectedMarker[labelColumn]}
+          </div>
         </Popup>
       )}
     </ReactMapGL>

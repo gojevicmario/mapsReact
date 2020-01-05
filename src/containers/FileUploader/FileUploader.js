@@ -1,10 +1,10 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { useDropzone } from 'react-dropzone';
 import Papa from 'papaparse';
 
 import alertify from 'alertifyjs';
 import 'alertifyjs/build/css/alertify.css';
-export default function FileUploader({ updateSomething }) {
+export default function FileUploader({ updateMarkers }) {
   const onDrop = acceptedFiles => {
     if (acceptedFiles[0].name.split('.')[1].toLowerCase() === 'csv') {
       Papa.parse(acceptedFiles[0], {
@@ -15,7 +15,7 @@ export default function FileUploader({ updateSomething }) {
             isLabel: column === 'Founder' ? true : false
           }));
           //Caution shitty code below
-          let fromCsv = result.data.slice(1).map((row, index) => ({
+          let fromCsv = result.data.slice(1).map(row => ({
             Id: row[0],
             CompanyName: row[1],
             Founder: row[2],
@@ -31,7 +31,7 @@ export default function FileUploader({ updateSomething }) {
           }));
           //hax for badly formated csv
           fromCsv.pop();
-          updateSomething(fromCsv);
+          updateMarkers(fromCsv);
         }
       });
     } else {
@@ -42,7 +42,11 @@ export default function FileUploader({ updateSomething }) {
 
   return (
     <div className="card">
-      <div {...getRootProps()} className="card-body">
+      <div
+        {...getRootProps()}
+        className="card-body"
+        style={{ textAlign: 'center', fontWeight: '700' }}
+      >
         <input {...getInputProps()} />
         {isDragActive ? (
           <p>Drop a csv file here</p>

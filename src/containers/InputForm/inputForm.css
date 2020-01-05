@@ -1,6 +1,11 @@
 .marker-form {
-  width: 60%;
+  width: 30vw;
   margin: 0 auto;
+}
+@media (max-width: 641px) {
+  .marker-form {
+    width: 90vw;
+  }
 }
 .marker-form input {
   margin: 15px 0;
